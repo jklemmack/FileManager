@@ -20,6 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,17 +57,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FileManagerService.Interfaces\FileManagerService.Interfaces.csproj">
-      <Project>{d2d4d96b-d761-49c3-98e9-12f47544cdad}</Project>
-      <Name>FileManagerService.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FileManagerService.Models\FileManagerService.Models.csproj">
       <Project>{60473eb0-a438-422f-9d22-73bdaec6bd9c}</Project>
       <Name>FileManagerService.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="License.md" />
     <None Include="packages.config" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,6 +11,8 @@ namespace FileManagerService.Models
          long Id { get; set; }
          string Name { get; set; }
          long? ParentFolderId { get; set; }
+         string FullPath { get; set; }
+
          bool IsDeleted { get; set; }
          bool IsPurged { get; set; }
 

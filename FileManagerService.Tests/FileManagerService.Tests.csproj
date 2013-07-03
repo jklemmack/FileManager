@@ -69,15 +69,15 @@
   <ItemGroup>
     <Compile Include="FolderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileTests.cs" />
+    <Compile Include="GlobalInit.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="License.md" />
     <None Include="packages.config" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FileManagerService.Interfaces\FileManagerService.Interfaces.csproj">
-      <Project>{d2d4d96b-d761-49c3-98e9-12f47544cdad}</Project>
-      <Name>FileManagerService.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FileManagerService.Models\FileManagerService.Models.csproj">
       <Project>{60473eb0-a438-422f-9d22-73bdaec6bd9c}</Project>
       <Name>FileManagerService.Models</Name>

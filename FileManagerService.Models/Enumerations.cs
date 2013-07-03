@@ -15,21 +15,26 @@ namespace FileManagerService.Models
         FolderNotFound,
         FileNotFound,
         TargetIsChildOfSource,
+        FolderIsNotDeleted,
+        FileIsNotDeleted,
+        FileStoreNotFound,
+        CannotModifyDeletedItems,
         GeneralFailure
     }
 
     public enum OverwriteBehavior
     {
-        Skip,
-        //RaiseConflict,
-        Overwrite,
+        RaiseConflict,
+        //Overwrite,
         Copy
     }
 
     public enum ReadType
     {
-        Default,
-        OnlyDeleted,
-        All
+        Default = 1,
+        OnlyNonDeleted = 1,
+        OnlyDeleted = 2,
+        All = 0
     }
+
 }
