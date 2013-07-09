@@ -24,13 +24,21 @@ namespace FileManager.Service.DTOs
 
     public class FolderResult
     {
-        List<File> Files { get; set; }
-        List<Folder> Folders { get; set; }
+        public List<File> Files { get; set; }
+        public List<Folder> Folders { get; set; }
 
         public FolderResult()
         {
             Files = new List<File>();
             Folders = new List<Folder>();
+        }
+
+        public static FolderResult Create(IEnumerable<Folder> folders, IEnumerable<File> files)
+        {
+            FolderResult result = new FolderResult();
+            result.Files = new List<File>(files);
+            result.Folders = new List<Folder>(folders);
+            return result;
         }
     }
 }

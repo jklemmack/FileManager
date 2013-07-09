@@ -40,7 +40,7 @@ namespace FileManager.Web
                 new OrmLiteConnectionFactory(@"Data Source=ORB515720\SQLExpress;Initial Catalog=FileManager;Integrated Security=True"
                                             , ServiceStack.OrmLite.SqlServer.SqlServerOrmLiteDialectProvider.Instance)
                 {
-                    ConnectionFilter = x => new ServiceStack.MiniProfiler.Data.ProfiledDbConnection(x, Profiler.Current)
+                    ConnectionFilter = x => new ServiceStack.MiniProfiler.Data.ProfiledDbConnection(x, Profiler.Current),
                 });
 
         }
@@ -61,7 +61,13 @@ namespace FileManager.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            if (Request.IsLocal)
+                Profiler.Start(ProfileLevel.Verbose);
+        }
 
+        protected void Application_EndRequest(object sender, EventArgs e)
+        {
+            Profiler.Stop();
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

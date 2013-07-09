@@ -1,14 +1,122 @@
-﻿<!DOCTYPE html>
+﻿@inherits ViewPage
+@{
+    Layout = "";                  
+}
 
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head>
     <title></title>
+    <script src="Scripts/jquery-2.0.2.min.js"></script>
+    <script src="Scripts/jquery-ui-1.10.3.min.js"></script>
+    @ServiceStack.MiniProfiler.Profiler.RenderIncludes().AsRaw()
+
+    <script type="text/javascript">
+        $(document).ajaxComplete(function (e, xhr, settings) {
+            var ids = xhr.getResponseHeader('X-MiniProfiler-Ids');
+            if (ids != null) {
+                MiniProfiler.fetchResultsExposed($.parseJSON(ids));
+            }
+        });
+
+        $(function () {
+            'use strict';
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        function fromDtoDate(dateStr) {
+            return new Date(parseFloat(/Date\(([^)]+)\)/.exec(dateStr)[1]));
+        }
+
+        function dirPath(path) {
+            if (typeof (path) != 'string') return path;
+            var strPos = path.lastIndexOf('/', path.lenth - 1);
+            if (strPos == -1) return path;
+            return path.substr(0, strPos);
+        }
+
+        var href = "files", lastHref = "";
+
+        var refresh = function (callback, skipPushState) {
+            if (!skipPushState && window.history.pushState)
+                window.history.pushState(href, href.replace('/', ' / '), '#!' + href);
+
+            // Build the breadcrumb at the top
+            var dirs = href.replace(/\/$/, "").split('/');
+            var sb = '<div id="breadcrumb">';
+            var sbDirs = "";
+            for (var i = 0; i < dirs.length; i++) {
+                var dir = dirs[i];
+                if (!dir) continue;
+                if (i == dirs.length - 1)   // if tip, show in bold
+                    sb += '<strong>' + dir + '</strong>';
+                else
+                    sb += '<a href="#!' + sbDirs + dir + '">' + dir + '</a><b> / </b>';
+                sbDirs += dir + "/";
+            }
+
+            // Query for the files
+            var jqLs = $("#ls");
+            $.getJSON(href, function (r) {
+                var navBack = lastHref.lastIndexOf > href.constructor && lastHref.sub(0, href.length) == href;
+
+                var sb = "<div><table><thead><tr><th>Name</th><th>size</th></tr><thead><tbody>";
+
+                var file = r.file;
+
+
+
+                var dirList = r.Directory;
+                if (dirList) {
+                    if (dirs.length > 1) {  // we are at least 1 deep in our directory stack
+                        var upHref = href.substr(0, href.lastIndexOf('/', href.length - 2));
+                        sb += '<tr><td><a href="#!' + upHref + "'>..</a></td><td></td></tr>";
+                    }
+
+                    $.each(dirList.Folders, function (i, dir) {
+                        sb += '<tr><td><a href="#!' + href + '/' + dir.Name + '">' + dir.Name + '</td><td></td></tr>';
+                    });
+
+                    $.each(dirList.Files, function (i, file) {
+                        sb += '<tr><td><a href="#!' + href + '/' + file.Name + '">' + file.Name + '</td><td>' + file.Size + '</td></tr>';
+                    });
+                }
+
+                sb += "</tbody></table></div>";
+
+                $("#ls").show().append(sb);
+
+            });
+
+        };
+
+
+        window.onpopstate = function (e) {
+            e = e || event;
+            if (!e.state) return;
+            href = e.state;
+            refresh(null, true);
+        };
+
+        var hash = location.hash.indexOf('#!') === 0 && location.hash.substr(2);
+        if (hash) href = hash;
+        refresh();
+
+    </script>
+
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    test 2
+
+    <div id="breadcrumb"></div>
+    <div id="ls">
     </div>
-    </form>
+
+
 </body>
 </html>
+
+
+

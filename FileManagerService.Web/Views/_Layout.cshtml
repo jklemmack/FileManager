@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/jquery-2.0.2.min.js"></script>
+    <script src="Scripts/jquery-ui-1.10.3.min.js"></script>
+    @ServiceStack.MiniProfiler.Profiler.RenderIncludes().AsRaw()
+
+    <script type="text/javascript">
+        $(document).ajaxComplete(function (e, xhr, settings) {
+            var ids = xhr.getResponseHeader('X-MiniProfiler-Ids');
+            if (ids != null) {
+                MiniProfiler.fetchResultsExposed($.parseJSON(ids));
+            }
+        });
+
+    </script>
+</head>
+<body>@RenderBody()
+</body>
+</html>

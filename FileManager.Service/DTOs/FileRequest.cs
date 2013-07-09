@@ -26,9 +26,7 @@ namespace FileManager.Service.DTOs
     public class FileResponse : IHasResponseStatus
     {
         public FileResult File { get; set; }
-        public FolderResult Folder { get; set; }
-
-        public string MyProperty { get { return "test"; }  }
+        public FolderResult Directory { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
     }
